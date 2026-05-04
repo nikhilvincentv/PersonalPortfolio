@@ -1,29 +1,30 @@
 ---
-title: "AgriSafe: Crop Stress Detection & Edge ML"
-student_names: "Nikhil V"
+title: "AgriDefend: Crop Stress Detection & Edge AI"
+student_names: "Nikhil Vincent"
 grade: 11
 year: 2026
 category: "Food Security"
-tags: ["edge-ml", "sensors", "agriculture", "wssef", "tflite", "random-forest"]
-summary: "Student-led research designing a sensor pipeline and late-fusion edge ML model for crop yield sensitivity forecasting. Patent pending. WSSEF First Place 2026."
-hero_image: "/images/project-agri.jpg"
+tags: ["edge-ml", "sensors", "agriculture", "tflite", "random-forest"]
+summary: "Offline-first edge AI system for pre-phenotypic crop stress detection, combining a Raspberry Pi sensor bridge with multimodal late-fusion AI. Provisional patent filed May 2, 2026."
+hero_image: "/images/agridefend-hardware.jpeg"
 gallery:
-  - "/images/project-agri.jpg"
-  - "/images/project-field.jpg"
+  - "/images/agridefend-hardware.jpeg"
+  - "/images/resume/agridefend-field.png"
 links:
-  - label: "Non-Profit Website"
+  - label: "AgriDefend Website"
     url: "https://agridefend.org"
+  - label: "AgriSafe Project Website"
+    url: "http://agrisafeproject.org"
   - label: "Crop Stress Detection GitHub"
     url: "https://github.com/Person333333/crop-stress-detection"
   - label: "AgriSafe App GitHub"
     url: "https://github.com/Quantum535/AgriSafe-App"
-awards: "WSSEF First Place Award 2026 · Patent Pending"
 featured: true
 ---
-This independent research project explores low-cost sensor pipelines and edge ML techniques to detect early crop stress, with the goal of enabling faster agricultural interventions and more resilient yield forecasting.
+AgriDefend is an offline-first edge AI system for pre-phenotypic crop stress detection, built to give farmers earlier intervention signals before visible wilting appears.
 
-Nikhil designed a controlled experimental study integrating visual leaf analysis with soil and atmospheric telemetry using a multimodal late-fusion model (CNN + Random Forest), compiled to TFLite for edge deployment.
+The invention includes a hardware bridge using **ADS1115 + MAX485** to let a Raspberry Pi communicate with RS-485 Modbus soil sensors, plus a multimodal late-fusion AI architecture combining **CNN visual analysis** with **Random Forest soil telemetry**.
 
-Co-developed the **AgriSafe App** alongside teammates and wrote a formal research paper with advice from professors in related fields. The project was patent-pending at time of submission and was field-tested at 21 Acres Farm and Hawthorn Farms.
+The system achieved **87% diagnostic accuracy** and provides a **4-day early warning window** before visible wilting occurs. Field testing included 21 Acres Farm and Hawthorn Farms, with the attached prototype hardware used as the bridge enclosure.
 
-Presented and awarded **WSSEF First Place 2026**.
+**Patent:** AgriDefend: Hardware Bridge + Multimodal Edge AI for Early Crop Stress Detection, provisional application **64/055,521**, filed **May 2, 2026**.

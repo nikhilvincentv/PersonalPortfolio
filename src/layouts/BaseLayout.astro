@@ -2,10 +2,11 @@
 import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import { ClientRouter } from "astro:transitions";
 
 const {
-  title = "Nikhil V — Portfolio",
-  description = "High-impact research, engineering projects, and leadership in AI, healthcare ML, and food security.",
+  title = "Nikhil Vincent — Portfolio",
+  description = "Applied AI projects, prototypes, and field-tested tools by Nikhil Vincent.",
   image = "/images/og-image.svg"
 } = Astro.props;
 
@@ -28,8 +29,9 @@ const currentPath = Astro.url.pathname;
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
-  <body>
+  <body data-page={currentPath}>
     <SiteHeader currentPath={currentPath} />
     <main>
       <slot />
@@ -37,9 +39,10 @@ const currentPath = Astro.url.pathname;
     <SiteFooter />
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      const initInteractions = () => {
         // ── Scroll-reveal ──────────────────────────────────────
-        const observerOptions = { threshold: 0.12, rootMargin: "0px 0px -50px 0px" };
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const observerOptions = { threshold: 0.08, rootMargin: "0px 0px -70px 0px" };
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -51,7 +54,14 @@ const currentPath = Astro.url.pathname;
           });
         }, observerOptions);
 
-        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+        document.querySelectorAll(".reveal").forEach((el, index) => {
+          if (reduceMotion) {
+            el.classList.add("visible");
+            return;
+          }
+          el.style.setProperty("--reveal-index", `${Math.min(index, 5)}`);
+          observer.observe(el);
+        });
 
         // ── Header shadow on scroll ────────────────────────────
         const header = document.querySelector(".site-header");
@@ -72,7 +82,10 @@ const currentPath = Astro.url.pathname;
         };
 
         window.addEventListener("scroll", onScroll, { passive: true });
-      });
+        updateHeader();
+      };
+
+      document.addEventListener("astro:page-load", initInteractions);
     </script>
   </body>
 </html>

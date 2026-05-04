@@ -1,6 +1,6 @@
 ---
 title: "AidMap Disaster Response Platform"
-student_names: "Nikhil V"
+student_names: "Nikhil Vincent"
 grade: 11
 year: 2025
 category: "Civic Tech"
@@ -9,15 +9,13 @@ summary: "Built a two-part platform to map aid requests and coordinate supply dr
 hero_image: "/images/project-aidmap.jpg"
 gallery:
   - "/images/project-aidmap.jpg"
-  - "/images/project-map.jpg"
 links:
   - label: "GitHub"
     url: "https://github.com/thesaucemantv/AidMap"
   - label: "Hackfest"
     url: "https://emphackfest.org/september-2025"
-awards: "2nd Place — AidMap EMP Hackfest (Sep 2025)"
 featured: true
 ---
 AidMap connects aid requests to supply coordinators during emergencies. The system offers a public-facing map of requests and a responder dashboard for routing, inventory, and delivery status.
 
-The project earned 2nd place at AidMap EMP Hackfest and focused on rapid deployment, clear UI for field responders, and data integrity under stress.
+The project focused on rapid deployment, clear UI for field responders, and data integrity under stress.

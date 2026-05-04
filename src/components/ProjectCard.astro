@@ -2,16 +2,21 @@
 import TagList from "./TagList.astro";
 const { project } = Astro.props;
 const { slug, data } = project;
+const hasMedia = data.hero_image?.startsWith("/images/resume/") || data.hero_image?.endsWith(".jpeg");
 ---
 <article
-  class="card project-card"
+  class="card project-card reveal"
   data-project-card
   data-category={data.category}
   data-tags={data.tags.join(",")}
 >
   <a href={`/projects/${slug}`} class="project-link">
     <div class="project-image">
-      <img src={data.hero_image} alt={data.title} loading="lazy" />
+      {hasMedia ? (
+        <img src={data.hero_image} alt={data.title} loading="lazy" />
+      ) : (
+        <div class="blank-media" aria-hidden="true"></div>
+      )}
     </div>
     <div class="project-content">
       <p class="eyebrow">{data.category}</p>

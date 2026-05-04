@@ -8,14 +8,34 @@ const projects = await getCollection("projects");
 const sorted = projects.sort((a, b) => b.data.year - a.data.year);
 const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
 ---
-<BaseLayout title="Projects — Nikhil V">
+<BaseLayout title="Projects — Nikhil Vincent">
   <section class="section">
     <div class="container">
       <SectionTitle
         eyebrow="Projects"
         title="Systems built for real people"
-        description="Filter by category to explore research, civic tech, and applied ML builds."
+        description="Applied AI, product prototypes, and field-tested tools."
       />
+      <article class="card patent-card reveal">
+        <div>
+          <p class="eyebrow">Patents</p>
+          <h3>AgriDefend: Hardware Bridge + Multimodal Edge AI for Early Crop Stress Detection</h3>
+          <div class="patent-meta">
+            <span class="pill">64/055,521</span>
+            <span class="pill">Filed May 2, 2026</span>
+            <span class="pill">Edge AI</span>
+          </div>
+          <p class="subtle">
+            Offline-first edge AI system for pre-phenotypic crop stress detection. The invention includes
+            an ADS1115 + MAX485 hardware bridge enabling Raspberry Pi to communicate with RS-485 Modbus
+            soil sensors, plus multimodal late fusion combining CNN visual analysis with Random Forest soil telemetry.
+          </p>
+          <p class="award-callout">87% diagnostic accuracy · 4-day early warning window before visible wilting</p>
+        </div>
+        <div class="patent-image">
+          <img src="/images/agridefend-hardware.jpeg" alt="AgriDefend prototype hardware bridge enclosure" />
+        </div>
+      </article>
       <div class="filter-bar">
         <button class="filter-button active" data-filter="all">All</button>
         {categories.map((cat) => (
@@ -40,7 +60,19 @@ const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
         const filter = button.dataset.filter;
         cards.forEach((card) => {
           const category = card.dataset.category;
-          card.style.display = filter === "all" || filter === category ? "block" : "none";
+          const shouldShow = filter === "all" || filter === category;
+          if (shouldShow) {
+            card.style.display = "block";
+            requestAnimationFrame(() => card.classList.remove("is-hiding"));
+            return;
+          }
+
+          card.classList.add("is-hiding");
+          window.setTimeout(() => {
+            if (card.classList.contains("is-hiding")) {
+              card.style.display = "none";
+            }
+          }, 240);
         });
       });
     });

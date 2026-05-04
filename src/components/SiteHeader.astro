@@ -3,16 +3,13 @@ const { currentPath = "/" } = Astro.props;
 const nav = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
-  { label: "Research", href: "/research" },
-  { label: "Impact", href: "/impact" },
-  { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/contact" }
 ];
 const isActive = (href) => (href === "/" ? currentPath === "/" : currentPath.startsWith(href));
 ---
 <header class="site-header">
   <div class="container header-inner">
-    <a class="logo" href="/">Nikhil V</a>
+    <a class="logo" href="/">Nikhil Vincent</a>
     <nav class="nav-links">
       {nav.map((item) => (
         <a class={`nav-link ${isActive(item.href) ? "active" : ""}`} href={item.href}>

@@ -13,8 +13,10 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+const hasHeroMedia = project.data.hero_image?.startsWith("/images/resume/") || project.data.hero_image?.endsWith(".jpeg");
+const hasRealGallery = (img) => img?.startsWith("/images/resume/") || img?.endsWith(".jpeg");
 ---
-<BaseLayout title={`${project.data.title} — Nikhil V`} description={project.data.summary}>
+<BaseLayout title={`${project.data.title} — Nikhil Vincent`} description={project.data.summary}>
   <section class="section project-hero">
     <div class="container project-hero-grid">
       <div>
@@ -22,7 +24,6 @@ const { Content } = await project.render();
         <h1 class="display hero-title">{project.data.title}</h1>
         <p class="subtle">{project.data.summary}</p>
         <TagList tags={project.data.tags} />
-        {project.data.awards && <p class="award-callout">{project.data.awards}</p>}
         <div class="project-links">
           {project.data.links.map((link) => (
             <a class="text-link" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
@@ -30,7 +31,11 @@ const { Content } = await project.render();
         </div>
       </div>
       <div class="project-hero-image">
-        <img src={project.data.hero_image} alt={project.data.title} />
+        {hasHeroMedia ? (
+          <img src={project.data.hero_image} alt={project.data.title} />
+        ) : (
+          <div class="blank-media hero-blank" aria-hidden="true"></div>
+        )}
       </div>
     </div>
   </section>
@@ -47,8 +52,12 @@ const { Content } = await project.render();
         <h2 class="display section-title">Gallery</h2>
         <div class="grid grid-3">
           {project.data.gallery.map((img) => (
-            <div class="card gallery-card">
-              <img src={img} alt={project.data.title} loading="lazy" />
+            <div class={`card gallery-card ${img.includes("agridefend-field") ? "tall" : ""}`}>
+              {hasRealGallery(img) ? (
+                <img src={img} alt={project.data.title} loading="lazy" />
+              ) : (
+                <div class="blank-media" aria-hidden="true"></div>
+              )}
             </div>
           ))}
         </div>

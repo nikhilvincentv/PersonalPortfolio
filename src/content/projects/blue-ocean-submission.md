@@ -1,12 +1,12 @@
 ---
 title: "Blue Ocean 2026 Submission"
-student_names: "Nikhil V"
+student_names: "Nikhil Vincent"
 grade: 11
 year: 2026
 category: "Entrepreneurship"
 tags: ["pitch", "innovation"]
-summary: "Competition submission focused on product strategy and community impact."
-hero_image: "/images/project-map.jpg"
+summary: "Product strategy concept focused on technical feasibility and community impact."
+hero_image: "/images/project-blue-ocean.jpg"
 links:
   - label: "Submission Video"
     url: "https://www.youtube.com/watch?v=lVrOf5ASTNM"

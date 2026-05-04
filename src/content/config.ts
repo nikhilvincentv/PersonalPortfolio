@@ -4,7 +4,7 @@ const projects = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    student_names: z.string().default("Nikhil V"),
+    student_names: z.string().default("Nikhil Vincent"),
     grade: z.union([z.string(), z.number()]).optional(),
     year: z.number(),
     category: z.string(),
