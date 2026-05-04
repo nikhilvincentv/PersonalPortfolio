@@ -21,7 +21,8 @@ const hasMedia = data.hero_image?.startsWith("/images/resume/") || data.hero_ima
     <div class="project-content">
       <p class="eyebrow">{data.category}</p>
       <h3 class="project-title">{data.title}</h3>
-      <p class="subtle">{data.summary}</p>
+      <p class="subtle" data-desc style="display:none">{data.summary}</p>
+      <button class="toggle-desc button ghost" type="button" data-toggle-desc>Details</button>
       <TagList tags={data.tags} />
       {slug === "agridefend" && (
         <span class="badge patent-pending" aria-label="Patent Pending">Patent Pending</span>

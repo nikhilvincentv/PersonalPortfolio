@@ -56,5 +56,34 @@ const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
         });
       });
     });
+
+    // Toggle project description inside cards without navigating away
+    const toggles = document.querySelectorAll("[data-toggle-desc]");
+    toggles.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const parentContent = btn.closest(".project-content");
+        const desc = parentContent?.querySelector("[data-desc]");
+        if (!desc) return;
+        const isVisible = desc.style.display === "block";
+        desc.style.display = isVisible ? "none" : "block";
+        btn.textContent = isVisible ? "Details" : "Hide";
+      });
+    });
+
+    // Scroll reveal for project cards
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((ent) => {
+        if (ent.isIntersecting) {
+          ent.target.classList.add('visible');
+          obs.unobserve(ent.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -20% 0px' });
+    reveals.forEach((el) => observer.observe(el));
+
+    // Fullscreen image support for detail page hero (handled in [slug].astro)
   </script>
 </BaseLayout>

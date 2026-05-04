@@ -235,7 +235,7 @@ li { margin-bottom: 0.4rem; }
 }
 
 .card:hover {
-  transform: translate3d(0, -6px, 0);
+  transform: translate3d(0, -6px, 0) scale(1.01);
   box-shadow: var(--shadow-lg);
   border-color: rgba(46, 204, 154, 0.2);
 }
@@ -248,6 +248,43 @@ li { margin-bottom: 0.4rem; }
 .grid   { display: grid; gap: 1.5rem; }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* Scroll reveal for cards */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+  will-change: opacity, transform;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Button pulse effect */
+.button.pulse:hover {
+  animation: pulse 0.6s ease;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Fullscreen hero image on detail pages */
+#hero-detail-img {
+  cursor: zoom-in;
+  transition: transform 0.4s ease;
+}
+#hero-detail-img.fullscreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  object-fit: cover;
+  z-index: 9999;
+  cursor: zoom-out;
+  background: #000;
+}
 
 /* ============================================================
    PILLS / TAGS
@@ -1076,6 +1113,14 @@ li { margin-bottom: 0.4rem; }
   .gallery-card.tall img {
     height: 260px;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; opacity: 1; transform: none; }
+  .card:hover { transform: none; }
+  #hero-detail-img { transition: none; }
+  #hero-detail-img.fullscreen { position: static; width: auto; height: auto; }
+  .button.pulse:hover { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -72,21 +72,23 @@ const hasRealGallery = (img) => img?.startsWith("/images/resume/") || img?.endsW
 <script is:inline>
   const img = typeof document !== 'undefined' ? document.getElementById('hero-detail-img') : null;
   if (img) {
-    let isFullscreen = false;
+    let fullscreen = false;
     img.style.cursor = 'zoom-in';
-    img.addEventListener('click', () => {
-      isFullscreen = !isFullscreen;
-      if (isFullscreen) {
-        img.style.position = 'fixed';
-        img.style.top = '0';
-        img.style.left = '0';
-        img.style.width = '100vw';
-        img.style.height = '100vh';
-        img.style.objectFit = 'cover';
-        img.style.zIndex = '9999';
+    const toggleFullscreen = () => {
+      fullscreen = !fullscreen;
+      if (fullscreen) {
+        img.classList.add('fullscreen');
         document.body.style.overflow = 'hidden';
       } else {
-        img.style = '';
+        img.classList.remove('fullscreen');
+        document.body.style.overflow = '';
+      }
+    };
+    img.addEventListener('click', toggleFullscreen);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && fullscreen) {
+        fullscreen = false;
+        img.classList.remove('fullscreen');
         document.body.style.overflow = '';
       }
     });
