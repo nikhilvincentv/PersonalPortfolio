@@ -19,6 +19,9 @@ const hasRealGallery = (img) => img?.startsWith("/images/resume/") || img?.endsW
 <BaseLayout title={`${project.data.title} — Nikhil Vincent`} description={project.data.summary}>
   <section class="section project-hero">
     <div class="container project-hero-grid">
+      <div class="back-container" style="width:100%; margin-bottom:1rem;">
+        <a href="/projects" class="button ghost">Back to Projects</a>
+      </div>
       <div>
         <p class="eyebrow">{project.data.category} · {project.data.year}</p>
         <h1 class="display hero-title">{project.data.title}</h1>
@@ -30,9 +33,9 @@ const hasRealGallery = (img) => img?.startsWith("/images/resume/") || img?.endsW
           ))}
         </div>
       </div>
-      <div class="project-hero-image">
+        <div class="project-hero-image">
         {hasHeroMedia ? (
-          <img src={project.data.hero_image} alt={project.data.title} />
+          <img id="hero-detail-img" src={project.data.hero_image} alt={project.data.title} />
         ) : (
           <div class="blank-media hero-blank" aria-hidden="true"></div>
         )}
@@ -65,3 +68,27 @@ const hasRealGallery = (img) => img?.startsWith("/images/resume/") || img?.endsW
     </section>
   )}
 </BaseLayout>
+
+<script is:inline>
+  const img = typeof document !== 'undefined' ? document.getElementById('hero-detail-img') : null;
+  if (img) {
+    let isFullscreen = false;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      isFullscreen = !isFullscreen;
+      if (isFullscreen) {
+        img.style.position = 'fixed';
+        img.style.top = '0';
+        img.style.left = '0';
+        img.style.width = '100vw';
+        img.style.height = '100vh';
+        img.style.objectFit = 'cover';
+        img.style.zIndex = '9999';
+        document.body.style.overflow = 'hidden';
+      } else {
+        img.style = '';
+        document.body.style.overflow = '';
+      }
+    });
+  }
+</script>
