@@ -190,6 +190,23 @@ li { margin-bottom: 0.4rem; }
 }
 .text-link:hover { color: #fff; }
 
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+  margin-top: 0.5rem;
+}
+.badge.patent-pending {
+  background: rgba(255, 214, 0, 0.15);
+  color: #ffd54f;
+  border: 1px solid rgba(255, 214, 0, 0.4);
+}
+
 /* ============================================================
    CARDS
    ============================================================ */
