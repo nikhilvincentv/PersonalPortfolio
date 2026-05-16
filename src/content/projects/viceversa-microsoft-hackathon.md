@@ -6,9 +6,9 @@ year: 2026
 category: "Healthcare Tech"
 tags: ["react-native", "ai", "healthcare", "workflow"]
 summary: "A two-sided care coordination app connecting patients and healthcare providers with scheduling, communication, and AI-assisted workflow tools."
-hero_image: "/images/project-viceversa.jpg"
+hero_image: "/images/viceversa-landing.jpeg"
 gallery:
-  - "/images/project-viceversa.jpg"
+  - "/images/viceversa-landing.jpeg"
 links:
   - label: "GitHub"
     url: "https://github.com/CleeYOpro/viceversa"

@@ -6,9 +6,9 @@ year: 2026
 category: "Food Security"
 tags: ["edge-ml", "sensors", "agriculture", "tflite", "random-forest"]
 summary: "Offline-first edge AI system for pre-phenotypic crop stress detection, combining a Raspberry Pi sensor bridge with multimodal late-fusion AI. Provisional patent filed May 2, 2026."
-hero_image: "/images/agridefend-hardware.jpeg"
+hero_image: "/images/agridefend-hardware.png"
 gallery:
-  - "/images/agridefend-hardware.jpeg"
+  - "/images/agridefend-hardware.png"
   - "/images/resume/agridefend-field.png"
 links:
   - label: "AgriDefend Website"

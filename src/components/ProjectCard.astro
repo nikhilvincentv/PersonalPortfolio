@@ -2,7 +2,10 @@
 import TagList from "./TagList.astro";
 const { project } = Astro.props;
 const { slug, data } = project;
-const hasMedia = data.hero_image?.startsWith("/images/resume/") || data.hero_image?.endsWith(".jpeg");
+const hasMedia =
+  data.hero_image?.startsWith("/images/resume/") ||
+  data.hero_image?.endsWith(".png") ||
+  data.hero_image?.endsWith(".jpeg");
 ---
 <article
   class="card project-card reveal"
@@ -21,19 +24,8 @@ const hasMedia = data.hero_image?.startsWith("/images/resume/") || data.hero_ima
     <div class="project-content">
       <p class="eyebrow">{data.category}</p>
       <h3 class="project-title">{data.title}</h3>
-      <p class="subtle" data-desc style="display:none">{data.summary}</p>
-      <button class="toggle-desc button ghost" type="button" data-toggle-desc>Details</button>
+      <p class="subtle">{data.summary}</p>
       <TagList tags={data.tags} />
-      {slug === "agridefend" && (
-        <span class="badge patent-pending" aria-label="Patent Pending">Patent Pending</span>
-      )}
     </div>
   </a>
-  {data.links && data.links.length > 0 && (
-    <div class="project-links">
-      {data.links.map((link) => (
-        <a href={link.url} target="_blank" rel="noreferrer" class="text-link">{link.label}</a>
-      ))}
-    </div>
-  )}
 </article>

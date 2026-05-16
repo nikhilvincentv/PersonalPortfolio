@@ -19,6 +19,10 @@ const scrollProjects = featuredProjects.map((project) => ({
   image: project.data.hero_image,
   slug: project.slug
 }));
+const isRealMedia = (path) =>
+  path.startsWith("/images/resume/") ||
+  path.endsWith(".png") ||
+  path.endsWith(".jpeg");
 ---
 <BaseLayout>
   <!-- ── HERO ── -->
@@ -80,7 +84,7 @@ const scrollProjects = featuredProjects.map((project) => ({
             data-scroll-panel
           >
             <div class="scroll-panel-media">
-              {project.image.startsWith("/images/resume/") || project.image.endsWith(".jpeg") ? (
+              {isRealMedia(project.image) ? (
                 <img src={project.image} alt={project.title} loading={i === 0 ? "eager" : "lazy"} />
               ) : (
                 <div class="blank-media" aria-hidden="true"></div>

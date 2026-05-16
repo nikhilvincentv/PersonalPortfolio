@@ -16,6 +16,26 @@ const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
         title="Systems built for real people"
         description="Applied AI, product prototypes, and field-tested tools."
       />
+      <article class="card patent-card reveal">
+        <div>
+          <p class="eyebrow">Patents</p>
+          <h3>AgriDefend: Hardware Bridge + Multimodal Edge AI for Early Crop Stress Detection</h3>
+          <div class="patent-meta">
+            <span class="pill">64/055,521</span>
+            <span class="pill">Filed May 2, 2026</span>
+            <span class="pill">Edge AI</span>
+          </div>
+          <p class="subtle">
+            Offline-first edge AI system for pre-phenotypic crop stress detection. The invention includes
+            an ADS1115 + MAX485 hardware bridge enabling Raspberry Pi to communicate with RS-485 Modbus
+            soil sensors, plus multimodal late fusion combining CNN visual analysis with Random Forest soil telemetry.
+          </p>
+          <p class="award-callout">87% diagnostic accuracy · 4-day early warning window before visible wilting</p>
+        </div>
+        <div class="patent-image">
+          <img src="/images/agridefend-hardware.png" alt="AgriDefend prototype hardware bridge enclosure" />
+        </div>
+      </article>
       <div class="filter-bar">
         <button class="filter-button active" data-filter="all">All</button>
         {categories.map((cat) => (
@@ -54,21 +74,6 @@ const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
             }
           }, 240);
         });
-      });
-    });
-
-    // Toggle project description inside cards without navigating away
-    const toggles = document.querySelectorAll("[data-toggle-desc]");
-    toggles.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const parentContent = btn.closest(".project-content");
-        const desc = parentContent?.querySelector("[data-desc]");
-        if (!desc) return;
-        const isVisible = desc.style.display === "block";
-        desc.style.display = isVisible ? "none" : "block";
-        btn.textContent = isVisible ? "Details" : "Hide";
       });
     });
 

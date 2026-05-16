@@ -6,8 +6,9 @@ year: 2025
 category: "Healthcare ML"
 tags: ["audio", "yamnet", "wav2vec", "react-native"]
 summary: "Built a React Native prototype and ML pipeline to screen cough and breath audio using pretrained embeddings."
-hero_image: "/images/resume/ai-cough-1.png"
+hero_image: "/images/ai-cough-analysis.png"
 gallery:
+  - "/images/ai-cough-analysis.png"
   - "/images/resume/ai-cough-1.png"
   - "/images/resume/ai-cough-2.png"
 links:
