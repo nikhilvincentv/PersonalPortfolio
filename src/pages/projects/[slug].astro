@@ -23,6 +23,11 @@ const hasRealGallery = (img) =>
 <BaseLayout title={`${project.data.title} — Nikhil Vincent`} description={project.data.summary}>
   <section class="section project-hero">
     <div class="container project-hero-grid">
+      <a class="back-icon icon-button" href="/projects" aria-label="Back to projects">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </a>
       <div>
         <p class="eyebrow">{project.data.category} · {project.data.year}</p>
         <h1 class="display hero-title">{project.data.title}</h1>

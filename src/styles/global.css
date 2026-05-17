@@ -113,6 +113,10 @@ li { margin-bottom: 0.4rem; }
   border-bottom: 1px solid var(--line);
 }
 
+.section-intro {
+  padding-top: 2rem;
+}
+
 /* ============================================================
    TYPOGRAPHY
    ============================================================ */
@@ -180,6 +184,36 @@ li { margin-bottom: 0.4rem; }
 .button.ghost:hover {
   background: var(--accent-dim);
   border-color: var(--accent);
+  color: var(--accent);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink);
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+
+.icon-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-button:hover {
+  transform: translate3d(-2px, 0, 0);
+  border-color: var(--accent);
+  background: var(--accent-dim);
   color: var(--accent);
 }
 
@@ -636,10 +670,17 @@ li { margin-bottom: 0.4rem; }
 }
 
 .project-hero-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
   gap: 2.4rem;
   align-items: center;
+}
+
+.back-icon {
+  position: absolute;
+  top: -0.25rem;
+  left: 0;
 }
 
 .project-hero-image img {
@@ -764,96 +805,80 @@ li { margin-bottom: 0.4rem; }
    STICKY SCROLL STORY
    ============================================================ */
 .scroll-story {
-  min-height: 260vh;
-  padding: 3rem 0;
-  position: relative;
+  padding: 2rem 0 1rem;
 }
 
-.scroll-story-inner {
-  min-height: 100vh;
+.studio-board {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.studio-rail {
   position: sticky;
-  top: 0;
+  top: 6rem;
   display: grid;
-  grid-template-columns: minmax(260px, 0.85fr) minmax(320px, 1.15fr);
-  gap: 3rem;
-  align-items: center;
-  padding-block: 7rem 4rem;
+  gap: 1rem;
 }
 
-.scroll-copy {
-  max-width: 32rem;
-}
-
-.scroll-stage {
-  min-height: 560px;
-  position: relative;
-  perspective: 1200px;
-}
-
-.scroll-panel {
-  position: absolute;
-  inset: 0;
+.studio-panel {
   display: grid;
-  align-content: end;
-  gap: 1.2rem;
+  gap: 0.9rem;
   padding: 1.2rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  background: rgba(17, 24, 32, 0.86);
-  box-shadow: var(--shadow-lg);
-  opacity: 0;
-  transform: translate3d(var(--panel-shift, 0), 28px, -80px) rotateX(8deg) scale(0.94);
-  transition: opacity var(--t-slow) var(--ease),
-              transform var(--t-slow) var(--ease),
-              border-color var(--t-slow) var(--ease);
-  pointer-events: none;
-}
-
-.scroll-panel.active {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) rotateX(0) scale(1);
-  border-color: rgba(46, 204, 154, 0.24);
-  pointer-events: auto;
-}
-
-.scroll-panel h3 {
-  margin: 0.2rem 0 0.4rem;
-  font-size: 1.8rem;
-}
-
-.scroll-panel-media {
-  min-height: 300px;
   border-radius: var(--radius-md);
-  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  background: rgba(17, 24, 32, 0.9);
+  box-shadow: var(--shadow-sm);
 }
 
-.scroll-panel-media img,
-.scroll-panel-media .blank-media {
-  width: 100%;
-  height: 330px;
-  object-fit: cover;
+.studio-panel h3 {
+  margin: 0;
+  font-size: 1.4rem;
 }
 
-.scroll-progress {
-  position: absolute;
-  right: 1.25rem;
-  top: 50%;
+.studio-tiles {
   display: grid;
-  gap: 0.55rem;
-  transform: translateY(-50%);
+  gap: 1rem;
 }
 
-.scroll-progress span {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--line-strong);
-  transition: transform var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+.studio-tile {
+  padding: 1.4rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
 }
 
-.scroll-progress span.active {
-  background: var(--accent);
-  transform: scale(1.45);
+.studio-tile:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(46, 204, 154, 0.25);
+}
+
+.studio-tile h3 {
+  margin: 0.1rem 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.studio-tile p:last-child {
+  margin-bottom: 0;
+}
+
+.studio-metric {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.studio-metric:last-child {
+  border-bottom: none;
+}
+
+.studio-metric strong {
+  color: var(--ink);
 }
 
 /* ============================================================
@@ -1053,32 +1078,15 @@ li { margin-bottom: 0.4rem; }
   }
 
   .scroll-story {
-    min-height: auto;
-    padding: 3rem 0;
+    padding: 2rem 0;
   }
 
-  .scroll-story-inner {
-    position: relative;
-    min-height: auto;
+  .studio-board {
     grid-template-columns: 1fr;
-    padding-block: 1rem;
   }
 
-  .scroll-stage {
-    min-height: auto;
-    display: grid;
-    gap: 1rem;
-  }
-
-  .scroll-panel {
-    position: relative;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-
-  .scroll-progress {
-    display: none;
+  .studio-rail {
+    position: static;
   }
 
   .patent-card {

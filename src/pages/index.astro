@@ -1,28 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 
 const profile = await getEntry("profile", "site");
-const projects = await getCollection("projects");
-
-const featuredProjects = projects
-  .filter((project) => project.data.featured)
-  .sort((a, b) => b.data.year - a.data.year)
-  .slice(0, 3);
-
-const scrollProjects = featuredProjects.map((project) => ({
-  title: project.data.title,
-  category: project.data.category,
-  summary: project.data.summary,
-  image: project.data.hero_image,
-  slug: project.slug
-}));
-const isRealMedia = (path) =>
-  path.startsWith("/images/resume/") ||
-  path.endsWith(".png") ||
-  path.endsWith(".jpeg");
 ---
 <BaseLayout>
   <!-- ── HERO ── -->
@@ -67,82 +48,61 @@ const isRealMedia = (path) =>
     </div>
   </section>
 
-  <section class="scroll-story" data-scroll-story>
-    <div class="container scroll-story-inner">
-      <div class="scroll-copy">
-        <p class="eyebrow">Scroll Reel</p>
-        <h2 class="display section-title">Three builds, one throughline</h2>
-        <p class="subtle section-description">
-          Each project moves from sensing or input, through an ML or product layer, into something someone can actually use.
-        </p>
-      </div>
-      <div class="scroll-stage">
-        {scrollProjects.map((project, i) => (
-          <a
-            class={`scroll-panel ${i === 0 ? "active" : ""}`}
-            href={`/projects/${project.slug}`}
-            data-scroll-panel
-          >
-            <div class="scroll-panel-media">
-              {isRealMedia(project.image) ? (
-                <img src={project.image} alt={project.title} loading={i === 0 ? "eager" : "lazy"} />
-              ) : (
-                <div class="blank-media" aria-hidden="true"></div>
-              )}
-            </div>
-            <div>
-              <p class="eyebrow">{project.category}</p>
-              <h3>{project.title}</h3>
-              <p class="subtle">{project.summary}</p>
-            </div>
-          </a>
-        ))}
-      </div>
-      <div class="scroll-progress" aria-hidden="true">
-        {scrollProjects.map((_, i) => <span class={i === 0 ? "active" : ""} data-scroll-dot></span>)}
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FEATURED PROJECTS ── -->
-  <section class="section section-accent">
+  <section class="section section-accent section-intro">
     <div class="container">
       <SectionTitle
-        eyebrow="Projects"
-        title="Built work, no filler"
-        description="Applied systems across edge AI, healthcare ML, and civic tech."
+        eyebrow="Studio Board"
+        title="What I’m actually doing"
+        description="A quick read on the kind of work I like to ship, without turning the homepage into another project dump."
       />
-      <div class="grid grid-3">
-        {featuredProjects.map((project, i) => (
-          <div class={`reveal reveal-delay-${i + 1}`}>
-            <ProjectCard project={project} />
+      <div class="studio-board">
+        <aside class="studio-rail reveal">
+          <div class="studio-panel">
+            <p class="eyebrow">Current Mode</p>
+            <h3>Building systems that feel immediate and useful.</h3>
+            <p class="subtle">
+              I care most about work that can move from concept to something a real person can touch, test, and trust.
+            </p>
           </div>
-        ))}
+          <div class="studio-panel">
+            <div class="studio-metric">
+              <span class="subtle">Focus</span>
+              <strong>Edge AI</strong>
+            </div>
+            <div class="studio-metric">
+              <span class="subtle">Format</span>
+              <strong>Prototypes + field tests</strong>
+            </div>
+            <div class="studio-metric">
+              <span class="subtle">Style</span>
+              <strong>Clean, fast, usable</strong>
+            </div>
+          </div>
+        </aside>
+        <div class="studio-tiles">
+          <article class="studio-tile reveal reveal-delay-1">
+            <p class="eyebrow">1</p>
+            <h3>Make the first screen obvious.</h3>
+            <p class="subtle">
+              The homepage now opens with a clear signal instead of a recycled list of cards.
+            </p>
+          </article>
+          <article class="studio-tile reveal reveal-delay-2">
+            <p class="eyebrow">2</p>
+            <h3>Keep the work visible, not noisy.</h3>
+            <p class="subtle">
+              Projects still live on the projects page, but the home page stays editorial and focused.
+            </p>
+          </article>
+          <article class="studio-tile reveal reveal-delay-3">
+            <p class="eyebrow">3</p>
+            <h3>Use motion with a point.</h3>
+            <p class="subtle">
+              Subtle scroll reveals and sticky positioning give the page shape without making it busy.
+            </p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
-
-  <script is:inline>
-    const story = document.querySelector("[data-scroll-story]");
-    const panels = [...document.querySelectorAll("[data-scroll-panel]")];
-    const dots = [...document.querySelectorAll("[data-scroll-dot]")];
-
-    if (story && panels.length) {
-      const setActivePanel = () => {
-        const rect = story.getBoundingClientRect();
-        const progress = Math.min(0.999, Math.max(0, -rect.top / (rect.height - window.innerHeight)));
-        const activeIndex = Math.min(panels.length - 1, Math.floor(progress * panels.length));
-
-        panels.forEach((panel, index) => {
-          panel.classList.toggle("active", index === activeIndex);
-          panel.style.setProperty("--panel-shift", `${(index - activeIndex) * 18}px`);
-        });
-        dots.forEach((dot, index) => dot.classList.toggle("active", index === activeIndex));
-      };
-
-      window.addEventListener("scroll", () => requestAnimationFrame(setActivePanel), { passive: true });
-      window.addEventListener("resize", setActivePanel);
-      setActivePanel();
-    }
-  </script>
 </BaseLayout>
