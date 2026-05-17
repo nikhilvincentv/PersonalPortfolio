@@ -9,7 +9,6 @@ summary: "Built a two-part platform to map aid requests and coordinate supply dr
 hero_image: "/images/aidmap-map.png"
 gallery:
   - "/images/aidmap-map.png"
-  - "/images/aidmap-resource.png"
 links:
   - label: "GitHub"
     url: "https://github.com/thesaucemantv/AidMap"
