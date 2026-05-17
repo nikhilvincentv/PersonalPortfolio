@@ -670,17 +670,22 @@ li { margin-bottom: 0.4rem; }
 }
 
 .project-hero-grid {
-  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
   gap: 2.4rem;
   align-items: center;
 }
 
+.project-hero-copy {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
 .back-icon {
-  position: absolute;
-  top: -0.25rem;
-  left: 0;
+  justify-self: start;
+  position: static;
+  margin-bottom: 0.1rem;
 }
 
 .project-hero-image img {

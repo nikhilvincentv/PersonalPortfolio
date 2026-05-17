@@ -1,11 +1,9 @@
 ---
 import TagList from "./TagList.astro";
+import { isLocalImage, withBase } from "../lib/assets";
 const { project } = Astro.props;
 const { slug, data } = project;
-const hasMedia =
-  data.hero_image?.startsWith("/images/resume/") ||
-  data.hero_image?.endsWith(".png") ||
-  data.hero_image?.endsWith(".jpeg");
+const hasMedia = isLocalImage(data.hero_image);
 ---
 <article
   class="card project-card reveal"
@@ -16,7 +14,7 @@ const hasMedia =
   <a href={`/projects/${slug}`} class="project-link">
     <div class="project-image">
       {hasMedia ? (
-        <img src={data.hero_image} alt={data.title} loading="lazy" />
+        <img src={withBase(data.hero_image)} alt={data.title} loading="lazy" />
       ) : (
         <div class="blank-media" aria-hidden="true"></div>
       )}

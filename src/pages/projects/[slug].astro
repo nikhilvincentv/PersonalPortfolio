@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TagList from "../../components/TagList.astro";
+import { isLocalImage, withBase } from "../../lib/assets";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -13,35 +14,33 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
-const hasHeroMedia =
-  project.data.hero_image?.startsWith("/images/resume/") ||
-  project.data.hero_image?.endsWith(".png") ||
-  project.data.hero_image?.endsWith(".jpeg");
-const hasRealGallery = (img) =>
-  img?.startsWith("/images/resume/") || img?.endsWith(".png") || img?.endsWith(".jpeg");
+const hasHeroMedia = isLocalImage(project.data.hero_image);
+const hasRealGallery = (img) => isLocalImage(img);
 ---
 <BaseLayout title={`${project.data.title} — Nikhil Vincent`} description={project.data.summary}>
   <section class="section project-hero">
     <div class="container project-hero-grid">
-      <a class="back-icon icon-button" href="/projects" aria-label="Back to projects">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-      </a>
-      <div>
-        <p class="eyebrow">{project.data.category} · {project.data.year}</p>
-        <h1 class="display hero-title">{project.data.title}</h1>
-        <p class="subtle">{project.data.summary}</p>
-        <TagList tags={project.data.tags} />
-        <div class="project-links">
-          {project.data.links.map((link) => (
-            <a class="text-link" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
-          ))}
+      <div class="project-hero-copy">
+        <a class="back-icon icon-button" href="/projects" aria-label="Back to projects">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </a>
+        <div>
+          <p class="eyebrow">{project.data.category} · {project.data.year}</p>
+          <h1 class="display hero-title">{project.data.title}</h1>
+          <p class="subtle">{project.data.summary}</p>
+          <TagList tags={project.data.tags} />
+          <div class="project-links">
+            {project.data.links.map((link) => (
+              <a class="text-link" href={link.url} target="_blank" rel="noreferrer">{link.label}</a>
+            ))}
+          </div>
         </div>
       </div>
       <div class="project-hero-image">
         {hasHeroMedia ? (
-          <img src={project.data.hero_image} alt={project.data.title} />
+          <img src={withBase(project.data.hero_image)} alt={project.data.title} />
         ) : (
           <div class="blank-media hero-blank" aria-hidden="true"></div>
         )}
@@ -63,7 +62,7 @@ const hasRealGallery = (img) =>
           {project.data.gallery.map((img) => (
             <div class={`card gallery-card ${img.includes("agridefend-field") ? "tall" : ""}`}>
               {hasRealGallery(img) ? (
-                <img src={img} alt={project.data.title} loading="lazy" />
+                <img src={withBase(img)} alt={project.data.title} loading="lazy" />
               ) : (
                 <div class="blank-media" aria-hidden="true"></div>
               )}

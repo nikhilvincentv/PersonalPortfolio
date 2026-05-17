@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import { withBase } from "../lib/assets";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
@@ -33,7 +34,7 @@ const categories = Array.from(new Set(sorted.map((p) => p.data.category)));
           <p class="award-callout">87% diagnostic accuracy · 4-day early warning window before visible wilting</p>
         </div>
         <div class="patent-image">
-          <img src="/images/agridefend-hardware.png" alt="AgriDefend prototype hardware bridge enclosure" />
+          <img src={withBase("/images/agridefend-hardware.png")} alt="AgriDefend prototype hardware bridge enclosure" />
         </div>
       </article>
       <div class="filter-bar">
