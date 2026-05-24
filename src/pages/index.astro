@@ -71,18 +71,21 @@ const motionNarrative = [
         </div>
       </div>
       <div class="hero-workbench reveal">
-        <div class="workbench-stack" aria-hidden="true">
+        <div class="workbench-stack">
           {featuredProjects.map((project, index) => (
-            <article
+            <button
+              type="button"
               class={`workbench-card ${index === 0 ? "is-front" : ""}`}
-              style={`--stack-offset:${index * 12}px; --stack-rotate:${index === 0 ? 0 : index === 1 ? -4 : 4}deg; --stack-scale:${1 - index * 0.04};`}
+              data-stack-card
+              data-stack-index={index}
+              aria-label={`Bring ${project.title} to the front`}
             >
               <img src={project.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
               <div class="workbench-card-meta">
                 <p class="eyebrow">{project.category}</p>
                 <h2>{project.title}</h2>
               </div>
-            </article>
+            </button>
           ))}
         </div>
         <div class="bench-caption">
@@ -107,6 +110,7 @@ actionable alert</code></pre>
         <aside class="motion-preview reveal">
           <div class="motion-preview-frame">
             <img
+              class="motion-preview-image"
               src={featuredProjects[0]?.image ?? "/images/og-image.svg"}
               alt={featuredProjects[0]?.title ?? "Featured project"}
               data-motion-preview-image
@@ -166,7 +170,26 @@ CNN + Random Forest
     const previewSummary = document.querySelector("[data-motion-preview-summary]");
     const previewIndex = document.querySelector("[data-motion-preview-index]");
     const steps = [...document.querySelectorAll("[data-motion-step]")];
+    const stackCards = [...document.querySelectorAll("[data-stack-card]")];
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const stackTransforms = [
+      { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1, z: 3 },
+      { x: 0, y: 18, rotate: -4, scale: 0.96, opacity: 0.92, z: 2 },
+      { x: 0, y: 36, rotate: 4, scale: 0.92, opacity: 0.78, z: 1 }
+    ];
+
+    let stackOrder = stackCards.map((_, index) => index);
+    let stackTimer = null;
+    let previewFadeTimer = 0;
+
+    const fadePreview = () => {
+      if (!previewImage) return;
+      previewImage.classList.add("is-fading");
+      window.clearTimeout(previewFadeTimer);
+      previewFadeTimer = window.setTimeout(() => {
+        previewImage.classList.remove("is-fading");
+      }, 240);
+    };
 
     const syncPreview = (step) => {
       if (!step || !previewImage) return;
@@ -176,6 +199,7 @@ CNN + Random Forest
       const summary = step.dataset.motionSummary;
       const index = Number(step.dataset.motionIndex || 0) + 1;
 
+      fadePreview();
       previewImage.src = image;
       previewImage.alt = title || "Featured project";
       if (previewTitle) previewTitle.textContent = title || "";
@@ -186,8 +210,52 @@ CNN + Random Forest
       steps.forEach((item) => item.classList.toggle("is-active", item === step));
     };
 
+    const renderStack = () => {
+      stackOrder.forEach((cardIndex, slot) => {
+        const card = stackCards[cardIndex];
+        const transform = stackTransforms[slot];
+        card.style.transform = `translate3d(${transform.x}px, ${transform.y}px, 0) rotate(${transform.rotate}deg) scale(${transform.scale})`;
+        card.style.opacity = `${transform.opacity}`;
+        card.style.zIndex = `${transform.z}`;
+        card.dataset.stackSlot = String(slot);
+        card.classList.toggle("is-front", slot === 0);
+      });
+    };
+
+    const rotateStack = (direction = 1) => {
+      if (stackOrder.length < 2) return;
+      if (direction > 0) {
+        const first = stackOrder.shift();
+        if (first !== undefined) stackOrder.push(first);
+      } else {
+        const last = stackOrder.pop();
+        if (last !== undefined) stackOrder.unshift(last);
+      }
+      renderStack();
+    };
+
+    const restartStackTimer = () => {
+      if (stackTimer) window.clearInterval(stackTimer);
+      if (prefersReducedMotion || stackCards.length < 2) return;
+      stackTimer = window.setInterval(() => rotateStack(1), 10000);
+    };
+
     if (steps.length) {
       syncPreview(steps[0]);
+    }
+
+    if (stackCards.length) {
+      renderStack();
+      stackCards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+          const currentIndex = stackOrder.indexOf(index);
+          if (currentIndex === 0) return;
+          stackOrder = stackOrder.slice(currentIndex).concat(stackOrder.slice(0, currentIndex));
+          renderStack();
+          restartStackTimer();
+        });
+      });
+      restartStackTimer();
     }
 
     if (!prefersReducedMotion && steps.length) {

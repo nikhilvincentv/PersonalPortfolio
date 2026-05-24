@@ -629,11 +629,16 @@ li { margin-bottom: 0.4rem; }
   background: linear-gradient(180deg, rgba(11, 15, 19, 0.12), rgba(11, 15, 19, 0.55));
   box-shadow: var(--shadow-lg);
   overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  border-width: 1px;
+  -webkit-appearance: none;
+  appearance: none;
   transform:
     translate3d(0, var(--stack-offset, 0), 0)
     rotate(var(--stack-rotate, 0deg))
     scale(var(--stack-scale, 1));
-  transition: transform var(--t-slow) var(--ease), box-shadow var(--t-slow) var(--ease);
+  transition: transform var(--t-slow) var(--ease), box-shadow var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease), filter var(--t-slow) var(--ease);
   will-change: transform;
 }
 
@@ -680,6 +685,11 @@ li { margin-bottom: 0.4rem; }
 
 .workbench-card:hover img {
   transform: scale(1.04);
+}
+
+.workbench-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .bench-caption {
@@ -747,7 +757,12 @@ li { margin-bottom: 0.4rem; }
   min-height: 520px;
   object-fit: cover;
   transform: scale(1.02);
-  transition: opacity var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+  opacity: 1;
+  transition: opacity 520ms var(--ease), transform var(--t-med) var(--ease);
+}
+
+.motion-preview-frame img.is-fading {
+  opacity: 0.18;
 }
 
 .motion-preview-overlay {
@@ -977,8 +992,13 @@ li { margin-bottom: 0.4rem; }
 .award-card .eyebrow { color: var(--accent-2); }
 
 .patent-label {
-  font-size: 0.92rem;
-  letter-spacing: 0.18em;
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--ink);
 }
 
 /* ============================================================
@@ -1159,9 +1179,16 @@ li { margin-bottom: 0.4rem; }
   margin-bottom: 2rem;
 }
 
+.patent-head {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 0.7rem;
+}
+
 .patent-card h3 {
   margin: 0.35rem 0 0.7rem;
-  font-size: 1.7rem;
+  font-size: 1.95rem;
+  line-height: 1.02;
 }
 
 .patent-meta {
