@@ -1,19 +1,55 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+import { withBase } from "../lib/assets";
 
 const profile = await getEntry("profile", "site");
+const featuredProjects = (await getCollection("projects"))
+  .filter((project) => project.data.featured)
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3)
+  .map((project) => ({
+    title: project.data.title,
+    category: project.data.category,
+    summary: project.data.summary,
+    image: withBase(project.data.hero_image),
+    slug: project.slug
+  }));
+
+const motionNarrative = [
+  {
+    eyebrow: "Hardware bridge",
+    title: "AgriDefend turns field sensors into a calmer interface.",
+    summary:
+      "The layout can feel editorial while still showing the ADS1115 + MAX485 bridge, the prototype enclosure, and the idea behind the system.",
+    image: withBase("/images/agridefend-hardware.png")
+  },
+  {
+    eyebrow: "Civic response",
+    title: "AidMap keeps the map legible under pressure.",
+    summary:
+      "A clear request board, map-style UI, and responder flow make the disaster response work feel immediate instead of crowded.",
+    image: withBase("/images/aidmap-map.png")
+  },
+  {
+    eyebrow: "Health ML",
+    title: "The cough screen is built to read like a product, not a science fair board.",
+    summary:
+      "The mobile prototype and the audio ML side stay visible together, which makes the project feel grounded and intentional.",
+    image: withBase("/images/ai-cough-analysis.png")
+  }
+];
 ---
 <BaseLayout>
-  <!-- ── HERO ── -->
-  <section class="section hero">
+  <section class="section hero hero-shell">
+    <div class="hero-shell-glow" aria-hidden="true"></div>
     <div class="container hero-grid">
-      <div>
+      <div class="hero-copy">
         <p class="eyebrow fade-up">IB Diploma Candidate · Class of 2027</p>
         <h1 class="display hero-title fade-up">{profile?.data.full_name}</h1>
         <p class="hero-subtitle fade-up-delay">
-          Building applied AI systems across healthcare, food security, and civic tech.
+          I build applied AI systems and product prototypes that have to feel calm, clear, and real.
         </p>
         <div class="hero-actions fade-up-delay">
           <a class="button" href="/projects">View Projects</a>
@@ -25,24 +61,36 @@ const profile = await getEntry("profile", "site");
             <p class="meta-value">{profile?.data.intended_major}</p>
           </div>
           <div class="meta-item">
-            <p class="meta-label">Builds</p>
-            <p class="meta-value">Edge AI · Health ML · Civic Tools</p>
+            <p class="meta-label">Mode</p>
+            <p class="meta-value">Prototype-first UI</p>
           </div>
           <div class="meta-item">
             <p class="meta-label">Now</p>
-            <p class="meta-value">Shipping prototypes</p>
+            <p class="meta-value">Shipping field-ready demos</p>
           </div>
         </div>
       </div>
-      <div class="hero-card hero-orbit fade-up-delay">
-        <div class="orbit-ring"></div>
-        <div class="orbit-node orbit-node-1"></div>
-        <div class="orbit-node orbit-node-2"></div>
-        <div class="orbit-node orbit-node-3"></div>
-        <div class="hero-card-body">
-          <p class="eyebrow">Project Engine</p>
-          <h2 class="display">Prototype, test, refine.</h2>
-          <p class="subtle">A portfolio centered on systems that move from idea to working demo.</p>
+      <div class="hero-workbench reveal">
+        <div class="workbench-stack" aria-hidden="true">
+          {featuredProjects.map((project, index) => (
+            <article
+              class={`workbench-card ${index === 0 ? "is-front" : ""}`}
+              style={`--stack-offset:${index * 12}px; --stack-rotate:${index === 0 ? 0 : index === 1 ? -4 : 4}deg; --stack-scale:${1 - index * 0.04};`}
+            >
+              <img src={project.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
+              <div class="workbench-card-meta">
+                <p class="eyebrow">{project.category}</p>
+                <h2>{project.title}</h2>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="bench-caption">
+          <p class="eyebrow">Behind the scenes</p>
+          <pre class="code-sample"><code>sensor bus
+bridge enclosure
+vision model
+actionable alert</code></pre>
         </div>
       </div>
     </div>
@@ -51,58 +99,136 @@ const profile = await getEntry("profile", "site");
   <section class="section section-accent section-intro">
     <div class="container">
       <SectionTitle
-        eyebrow="Studio Board"
-        title="What I’m actually doing"
-        description="A quick read on the kind of work I like to ship, without turning the homepage into another project dump."
+        eyebrow="The Lab"
+        title="Things I build"
+        description="Selected work, shown as a motion sequence instead of a project wall."
       />
-      <div class="studio-board">
-        <aside class="studio-rail reveal">
-          <div class="studio-panel">
-            <p class="eyebrow">Current Mode</p>
-            <h3>Building systems that feel immediate and useful.</h3>
-            <p class="subtle">
-              I care most about work that can move from concept to something a real person can touch, test, and trust.
-            </p>
+      <div class="motion-lab">
+        <aside class="motion-preview reveal">
+          <div class="motion-preview-frame">
+            <img
+              src={featuredProjects[0]?.image ?? "/images/og-image.svg"}
+              alt={featuredProjects[0]?.title ?? "Featured project"}
+              data-motion-preview-image
+            />
+            <div class="motion-preview-overlay">
+              <p class="eyebrow" data-motion-preview-category>{featuredProjects[0]?.category}</p>
+              <h3 data-motion-preview-title>{featuredProjects[0]?.title}</h3>
+              <p class="subtle" data-motion-preview-summary>{featuredProjects[0]?.summary}</p>
+            </div>
           </div>
-          <div class="studio-panel">
-            <div class="studio-metric">
-              <span class="subtle">Focus</span>
-              <strong>Edge AI</strong>
-            </div>
-            <div class="studio-metric">
-              <span class="subtle">Format</span>
-              <strong>Prototypes + field tests</strong>
-            </div>
-            <div class="studio-metric">
-              <span class="subtle">Style</span>
-              <strong>Clean, fast, usable</strong>
-            </div>
+          <div class="motion-preview-foot">
+            <span>Scroll to change the preview</span>
+            <span class="motion-preview-index" data-motion-preview-index>01</span>
           </div>
         </aside>
-        <div class="studio-tiles">
-          <article class="studio-tile reveal reveal-delay-1">
-            <p class="eyebrow">1</p>
-            <h3>Make the first screen obvious.</h3>
+        <div class="motion-story">
+          {motionNarrative.map((item, index) => (
+            <article
+              class={`motion-step reveal reveal-delay-${Math.min(index + 1, 3)}`}
+              data-motion-step
+              data-motion-index={index}
+              data-motion-image={item.image}
+              data-motion-title={item.title}
+              data-motion-category={item.eyebrow}
+              data-motion-summary={item.summary}
+            >
+              <div class="motion-step-index">0{index + 1}</div>
+              <div>
+                <p class="eyebrow">{item.eyebrow}</p>
+                <h3>{item.title}</h3>
+                <p class="subtle">{item.summary}</p>
+              </div>
+            </article>
+          ))}
+          <article class="motion-note reveal reveal-delay-3">
+            <p class="eyebrow">Raw process</p>
+            <h3>More bench, less brochure.</h3>
             <p class="subtle">
-              The homepage now opens with a clear signal instead of a recycled list of cards.
+              I like showing the actual prototype photo, a compact code snippet, and just enough texture to make the
+              page feel made by a person.
             </p>
-          </article>
-          <article class="studio-tile reveal reveal-delay-2">
-            <p class="eyebrow">2</p>
-            <h3>Keep the work visible, not noisy.</h3>
-            <p class="subtle">
-              Projects still live on the projects page, but the home page stays editorial and focused.
-            </p>
-          </article>
-          <article class="studio-tile reveal reveal-delay-3">
-            <p class="eyebrow">3</p>
-            <h3>Use motion with a point.</h3>
-            <p class="subtle">
-              Subtle scroll reveals and sticky positioning give the page shape without making it busy.
-            </p>
+            <pre class="code-sample"><code>Raspberry Pi
+ADS1115 + MAX485
+CNN + Random Forest
+4-day warning window</code></pre>
           </article>
         </div>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    const shell = document.querySelector(".hero-shell");
+    const previewImage = document.querySelector("[data-motion-preview-image]");
+    const previewTitle = document.querySelector("[data-motion-preview-title]");
+    const previewCategory = document.querySelector("[data-motion-preview-category]");
+    const previewSummary = document.querySelector("[data-motion-preview-summary]");
+    const previewIndex = document.querySelector("[data-motion-preview-index]");
+    const steps = [...document.querySelectorAll("[data-motion-step]")];
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const syncPreview = (step) => {
+      if (!step || !previewImage) return;
+      const image = step.dataset.motionImage;
+      const title = step.dataset.motionTitle;
+      const category = step.dataset.motionCategory;
+      const summary = step.dataset.motionSummary;
+      const index = Number(step.dataset.motionIndex || 0) + 1;
+
+      previewImage.src = image;
+      previewImage.alt = title || "Featured project";
+      if (previewTitle) previewTitle.textContent = title || "";
+      if (previewCategory) previewCategory.textContent = category || "";
+      if (previewSummary) previewSummary.textContent = summary || "";
+      if (previewIndex) previewIndex.textContent = String(index).padStart(2, "0");
+
+      steps.forEach((item) => item.classList.toggle("is-active", item === step));
+    };
+
+    if (steps.length) {
+      syncPreview(steps[0]);
+    }
+
+    if (!prefersReducedMotion && steps.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              syncPreview(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.55,
+          rootMargin: "-12% 0px -12% 0px"
+        }
+      );
+
+      steps.forEach((step) => observer.observe(step));
+    }
+
+    if (shell && !prefersReducedMotion) {
+      let frame = 0;
+      const updateGlow = (clientX, clientY) => {
+        const rect = shell.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * 100;
+        const y = ((clientY - rect.top) / rect.height) * 100;
+        shell.style.setProperty("--hero-x", `${Math.max(0, Math.min(100, x))}%`);
+        shell.style.setProperty("--hero-y", `${Math.max(0, Math.min(100, y))}%`);
+        frame = 0;
+      };
+
+      shell.addEventListener("pointermove", (event) => {
+        if (!frame) {
+          frame = requestAnimationFrame(() => updateGlow(event.clientX, event.clientY));
+        }
+      });
+
+      shell.addEventListener("pointerleave", () => {
+        shell.style.setProperty("--hero-x", "56%");
+        shell.style.setProperty("--hero-y", "36%");
+      });
+    }
+  </script>
 </BaseLayout>
