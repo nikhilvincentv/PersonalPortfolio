@@ -976,6 +976,11 @@ li { margin-bottom: 0.4rem; }
 
 .award-card .eyebrow { color: var(--accent-2); }
 
+.patent-label {
+  font-size: 0.92rem;
+  letter-spacing: 0.18em;
+}
+
 /* ============================================================
    GALLERY
    ============================================================ */
