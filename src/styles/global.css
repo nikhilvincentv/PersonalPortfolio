@@ -993,11 +993,11 @@ li { margin-bottom: 0.4rem; }
 
 .patent-label {
   margin: 0;
-  font-size: 1.45rem;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 800;
+  font-size: 1.7rem;
+  line-height: 1.04;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-weight: 900;
   color: var(--ink);
 }
 
