@@ -12,6 +12,9 @@ To replace the placeholders with your actual photos from the resume, upload foll
 | `project-viceversa.jpg` | ViceVersa (Microsoft Hackathon) | A photo or screenshot of the healthcare app |
 | `project-research.jpg` | ML Research (Independent) | A waveform or desk photo representing your ML work |
 | `project-blue-ocean.jpg` | Blue Ocean Submission | A thumbnail from your pitch video |
+| `blog-coughsense-spectrogram.jpg` | Blog: "The Problem With Whisper and a 3-Second Cough" | A matplotlib spectrogram plot from your CoughSense training data |
+| `blog-agridefend-field.jpg` | Blog: "What Actually Breaks When You Put a Sensor In a Field" | Photo of the deployed sensor/PCB at 21 Acres Farm or Hawthorn Farms |
+| `blog-cold-email-template.jpg` | Blog: "What Happened After 150 Cold Emails to Professors" | Optional — a redacted screenshot of your working email template |
 
 ### Instructions
 1. Save your photos as `.jpg`.

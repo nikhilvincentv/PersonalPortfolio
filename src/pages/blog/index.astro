@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import TagList from "../../components/TagList.astro";
+import { isLocalImage, withBase } from "../../lib/assets";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog");
+const posts = allPosts
+  .filter((post) => !post.data.draft || import.meta.env.DEV)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
+---
+<BaseLayout title="Blog — Nikhil Vincent" description="Notes on research, engineering, and what actually happens when you try to build things.">
+  <section class="section">
+    <div class="container">
+      <SectionTitle
+        eyebrow="Blog"
+        title="Notes from the workbench"
+        description="Write-ups on what worked, what broke, and what I learned building this stuff."
+      />
+      <div class="grid grid-3">
+        {posts.map((post) => (
+          <article class="card project-card reveal">
+            <a href={`/blog/${post.slug}`} class="project-link">
+              <div class="project-image">
+                {isLocalImage(post.data.heroImage) ? (
+                  <img src={withBase(post.data.heroImage)} alt={post.data.title} loading="lazy" />
+                ) : (
+                  <div class="blank-media" aria-hidden="true"></div>
+                )}
+              </div>
+              <div class="project-content">
+                <p class="eyebrow">{dateFormat.format(post.data.pubDate)}</p>
+                <h3 class="project-title">{post.data.title}</h3>
+                <p class="subtle">{post.data.description}</p>
+                <TagList tags={post.data.tags} />
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

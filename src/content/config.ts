@@ -68,6 +68,18 @@ const leadership = defineCollection({
   })
 });
 
+const blog = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.date(),
+    heroImage: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false)
+  })
+});
+
 const profile = defineCollection({
   type: "data",
   schema: z.object({
@@ -89,5 +101,6 @@ export const collections = {
   research,
   achievements,
   leadership,
+  blog,
   profile
 };

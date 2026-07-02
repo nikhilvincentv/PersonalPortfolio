@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagList from "../../components/TagList.astro";
+import { isLocalImage, withBase } from "../../lib/assets";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const posts = allPosts.filter((post) => !post.data.draft || import.meta.env.DEV);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const hasHeroMedia = isLocalImage(post.data.heroImage);
+const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
+---
+<BaseLayout title={`${post.data.title} — Nikhil Vincent`} description={post.data.description}>
+  <section class="section project-hero">
+    <div class="container project-hero-grid">
+      <div class="project-hero-copy">
+        <a class="back-icon icon-button" href="/blog" aria-label="Back to blog">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </a>
+        <div>
+          <p class="eyebrow">{dateFormat.format(post.data.pubDate)}</p>
+          <h1 class="display hero-title">{post.data.title}</h1>
+          <p class="subtle">{post.data.description}</p>
+          <TagList tags={post.data.tags} />
+        </div>
+      </div>
+      <div class="project-hero-image">
+        {hasHeroMedia ? (
+          <img src={withBase(post.data.heroImage)} alt={post.data.title} />
+        ) : (
+          <div class="blank-media hero-blank" aria-hidden="true"></div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>
