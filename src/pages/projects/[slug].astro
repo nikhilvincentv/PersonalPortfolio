@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TagList from "../../components/TagList.astro";
+import LinkPreviews from "../../components/LinkPreviews.astro";
 import { isLocalImage, withBase } from "../../lib/assets";
 import { getCollection } from "astro:content";
 
@@ -15,7 +16,13 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const hasHeroMedia = isLocalImage(project.data.hero_image);
-const hasRealGallery = (img) => isLocalImage(img);
+const hasRealGallery = (img: string) => isLocalImage(img);
+const markdownLinks = (body: string) =>
+  [...body.matchAll(/\[([^\]]+)\]\(([^)\s]+)\)/g)].map(([, label, href]) => ({ label, href }));
+const links = [
+  ...project.data.links.map((link) => ({ label: link.label, href: link.url })),
+  ...markdownLinks(project.body)
+];
 ---
 <BaseLayout title={`${project.data.title} — Nikhil Vincent`} description={project.data.summary}>
   <section class="section project-hero">
@@ -51,6 +58,9 @@ const hasRealGallery = (img) => isLocalImage(img);
   <section class="section">
     <div class="container prose">
       <Content />
+    </div>
+    <div class="container">
+      <LinkPreviews links={links} heading="Links for this project" />
     </div>
   </section>
 

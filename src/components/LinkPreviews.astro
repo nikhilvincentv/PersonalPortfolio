@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import { withBase } from "../lib/assets";
+import previews from "../data/link-previews.json";
+
+interface Props {
+  links: { href: string; label: string }[];
+  heading?: string;
+}
+
+const { links, heading = "Where these links go" } = Astro.props;
+const posts = await getCollection("blog");
+const projects = await getCollection("projects");
+const manifest = previews as Record<string, { image: string; title: string; site: string }>;
+
+const seen = new Set<string>();
+const cards = links
+  .filter(({ href }) => {
+    if (seen.has(href)) return false;
+    seen.add(href);
+    return true;
+  })
+  .map(({ href, label }) => {
+    const external = /^https?:\/\//.test(href);
+    if (external) {
+      const preview = manifest[href];
+      return {
+        href,
+        external,
+        title: preview?.title ?? label,
+        site: preview?.site ?? new URL(href).hostname.replace(/^www\./, ""),
+        image: preview?.image
+      };
+    }
+    const [, kind, slug] = href.match(/^\/(blog|projects)\/([^/#?]+)/) ?? [];
+    const post = kind === "blog" ? posts.find((p) => p.slug === slug) : undefined;
+    const project = kind === "projects" ? projects.find((p) => p.slug === slug) : undefined;
+    return {
+      href,
+      external,
+      title: post?.data.title ?? project?.data.title ?? label,
+      site: kind === "projects" ? "Project page" : "Blog post",
+      image: post?.data.heroImage ?? project?.data.hero_image
+    };
+  });
+---
+{cards.length > 0 && (
+  <section class="link-previews" aria-label={heading}>
+    <h2 class="link-previews-title">{heading}</h2>
+    <div class="link-previews-grid">
+      {cards.map((card) => (
+        <a
+          class="link-preview"
+          href={card.href}
+          target={card.external ? "_blank" : undefined}
+          rel={card.external ? "noreferrer" : undefined}
+        >
+          <div class="link-preview-image">
+            {card.image ? (
+              <img src={withBase(card.image)} alt={`Preview of ${card.title}`} loading="lazy" />
+            ) : (
+              <div class="blank-media" aria-hidden="true"></div>
+            )}
+          </div>
+          <div class="link-preview-body">
+            <span class="link-preview-site">{card.site}</span>
+            <span class="link-preview-label">{card.title}</span>
+            <span class="link-preview-cta">
+              {card.external ? "Open site" : "Read it"} <span aria-hidden="true">{card.external ? "↗" : "→"}</span>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

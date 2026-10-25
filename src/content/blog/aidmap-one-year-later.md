@@ -20,14 +20,16 @@ The map in that screenshot is the request view. Red pins are active requests, gr
 
 **Priority as a first-class field.** Every request had an urgency level from the start. In a disaster, a first-come-first-served list is a bad way to run things. We got that part right.
 
-**Leaflet and free tiles.** We used open map tiles instead of a paid API, so there was never a key to run out of or a bill to worry about. I've used that approach on almost every map project since.
+**Free, open maps.** We built the map in Python with Folium, which runs on Leaflet and open map tiles instead of a paid API. There was never a key to run out of or a bill to worry about. I've used open tiles on almost every map project since.
+
+**A cooldown on requests.** We stored each submission and checked whether the same user had already asked recently, so one person couldn't flood the map. It was one of the features we were proudest of, and it was harder to get right than it sounds.
 
 ## What doesn't
 
 Looking at it now, AidMap was a demo of a disaster tool, and it would struggle in a real disaster. A few things jump out:
 
 - **It assumed internet.** During real disasters, cell networks go down first. A request form that needs a live connection fails exactly when people need it. If I rebuilt it, I'd make it offline-first: queue the request on the phone and send it whenever any connection comes back. That's the same pattern I ended up using later in [AgriDefend](/blog/raspberry-pi-modbus-bridge).
-- **It trusted every submission.** No duplicate detection, no verification. One person reporting the same need five times would look like five needs.
+- **It stored everything in JSON files.** That was fine for a weekend and a demo. With thousands of people submitting at once, a few flat files would turn into the bottleneck, and two requests saving at the same moment could overwrite each other. A real database was the first thing I'd add.
 - **"Use current location" is a lot to ask.** Some people won't share their location with an app they've never heard of, and some shouldn't have to. A typed landmark or a nearby intersection should have been a first-class option.
 
 ## What changed in me

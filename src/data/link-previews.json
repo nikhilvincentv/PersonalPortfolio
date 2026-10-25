@@ -1,0 +1,82 @@
+{
+  "https://devpost.com/software/aidmap-3rovk8": {
+    "image": "/images/link-previews/devpost-aidmap.jpg",
+    "title": "AidMap on Devpost",
+    "site": "devpost.com"
+  },
+  "https://github.com/nikhilvincentv/crop-stress-detection": {
+    "image": "/images/link-previews/gh-crop-stress.jpg",
+    "title": "crop-stress-detection",
+    "site": "github.com"
+  },
+  "https://github.com/nikhilvincentv/cuda-mel-spectrogram": {
+    "image": "/images/link-previews/gh-cuda-mel.jpg",
+    "title": "cuda-mel-spectrogram",
+    "site": "github.com"
+  },
+  "https://github.com/thesaucemantv/AidMap": {
+    "image": "/images/link-previews/gh-aidmap.jpg",
+    "title": "AidMap source code",
+    "site": "github.com"
+  },
+  "https://healthyeatingnliving.com": {
+    "image": "/images/link-previews/heal.jpg",
+    "title": "Healthy Eating & Living",
+    "site": "healthyeatingnliving.com"
+  },
+  "https://huggingface.co/docs/transformers/model_doc/wav2vec2": {
+    "image": "/images/link-previews/hf-wav2vec2.jpg",
+    "title": "Wav2Vec2 docs",
+    "site": "huggingface.co"
+  },
+  "https://plaid.com/docs/sandbox/": {
+    "image": "/images/link-previews/plaid-sandbox.jpg",
+    "title": "Plaid Sandbox docs",
+    "site": "plaid.com"
+  },
+  "https://servewashington.galaxydigital.com/blog/display/wsvsa-2025-winner-healthy-living-and-eating/?blog_id=28468": {
+    "image": "/images/link-previews/serve-wa.jpg",
+    "title": "WSVSA 2025 winner: Healthy Living and Eating",
+    "site": "servewashington.org"
+  },
+  "https://www.tensorflow.org/hub/tutorials/yamnet": {
+    "image": "/images/link-previews/tf-yamnet.jpg",
+    "title": "Sound classification with YAMNet",
+    "site": "tensorflow.org"
+  },
+  "https://agridefend.org": {
+    "image": "/images/link-previews/agridefend.jpg",
+    "title": "AgriDefend",
+    "site": "agridefend.org"
+  },
+  "https://care-sync-provider-viceversa.vercel.app/": {
+    "image": "/images/link-previews/viceversa-demo.jpg",
+    "title": "ViceVersa provider app demo",
+    "site": "vercel.app"
+  },
+  "https://github.com/CleeYOpro/viceversa": {
+    "image": "/images/link-previews/gh-viceversa.jpg",
+    "title": "viceversa",
+    "site": "github.com"
+  },
+  "https://github.com/nikhilvincentv/care-sync-provider-viceversa": {
+    "image": "/images/link-previews/gh-viceversa-provider.jpg",
+    "title": "care-sync-provider-viceversa",
+    "site": "github.com"
+  },
+  "https://github.com/Quantum535/AgriSafe-App": {
+    "image": "/images/link-previews/gh-agrisafe-app.jpg",
+    "title": "AgriSafe-App",
+    "site": "github.com"
+  },
+  "https://www.youtube.com/watch?v=FJy52pClssQ": {
+    "image": "/images/blog/coughsense-app-record.jpg",
+    "title": "CoughSense demo video",
+    "site": "youtube.com"
+  },
+  "https://github.com/nikhilvincentv/Cough-Mobile-App": {
+    "image": "/images/link-previews/gh-cough-app.jpg",
+    "title": "Cough-Mobile-App",
+    "site": "github.com"
+  }
+}
