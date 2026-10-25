@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const hasHeroMedia = isLocalImage(post.data.heroImage);
-const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
+const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 ---
 <BaseLayout title={`${post.data.title} — Nikhil Vincent`} description={post.data.description}>
   <section class="section project-hero">

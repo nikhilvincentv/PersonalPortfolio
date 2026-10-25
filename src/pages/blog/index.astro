@@ -10,7 +10,7 @@ const posts = allPosts
   .filter((post) => !post.data.draft || import.meta.env.DEV)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" });
+const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 ---
 <BaseLayout title="Blog — Nikhil Vincent" description="Notes on research, engineering, and what actually happens when you try to build things.">
   <section class="section">
@@ -36,6 +36,7 @@ const dateFormat = new Intl.DateTimeFormat("en-US", { month: "long", day: "numer
                 <h3 class="project-title">{post.data.title}</h3>
                 <p class="subtle">{post.data.description}</p>
                 <TagList tags={post.data.tags} />
+                <span class="card-cta">Read post <span aria-hidden="true">→</span></span>
               </div>
             </a>
           </article>
